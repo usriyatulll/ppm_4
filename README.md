@@ -1,6 +1,5 @@
 # ppm_4
-https://github.com/usriyatulll/ppm_4/blob/master/lib/ss/ss.jpg
-https://github.com/usriyatulll/ppm_4/blob/master/lib/ss/ss2.jpg
+
 A new Flutter project.
 
 
