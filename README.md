@@ -28,9 +28,6 @@
 
 
 
-![alt text](https://github.com/usriyatulll/ppm_4/blob/master/lib/ss/ss.jpg)
-![alt text](https://github.com/usriyatulll/ppm_4/blob/master/lib/ss/ss2.jpg)
-
 A new Flutter project.
 
 
