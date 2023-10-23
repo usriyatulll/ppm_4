@@ -1,7 +1,11 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:ppm_4/bloc/login_bloc.dart';
+import 'package:ppm_4/helpers/user_info.dart';
+import 'package:ppm_4/ui/produk_page.dart';
 import 'package:ppm_4/ui/registrasi_page.dart';
+import 'package:ppm_4/widget/warning_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -80,8 +84,38 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         // ignore: unused_local_variable
         var validate = _formKey.currentState!.validate();
+        if (validate) {
+          if (!_isLoading) _submit();
+        }
       },
     );
+  }
+
+  void _submit() {
+    _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+    LoginBloc.login(
+            email: _emailTextboxController.text,
+            password: _passwordTextboxController.text)
+        .then((value) async {
+      await UserInfo().setToken(value.token.toString());
+      await UserInfo().setUserId(int.parse(value.userID.toString()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const ProdukPage()));
+    }, onError: (error) {
+      print(error);
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => WarningDialog(
+                description: "Login gagal, silahkan coba lagi",
+              ));
+    });
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Widget _menuRegistrasi() {

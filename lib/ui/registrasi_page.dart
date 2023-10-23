@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ppm_4/bloc/registrasi_bloc.dart';
+import 'package:ppm_4/widget/success_dialog.dart';
+import 'package:ppm_4/widget/warning_dialog.dart';
 
 class RegistrasiPage extends StatefulWidget {
   const RegistrasiPage({Key? key}) : super(key: key);
@@ -112,7 +115,42 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
       onPressed: () {
         // ignore: unused_local_variable
         var validate = _formKey.currentState!.validate();
+        if (validate) {
+          if (!_isLoading) _submit();
+        }
       },
     );
+  }
+
+  void _submit() {
+    _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+    RegistrasiBloc.registrasi(
+            nama: _namaTextboxController.text,
+            email: _emailTextboxController.text,
+            password: _passwordTextboxController.text)
+        .then((value) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => SuccessDialog(
+                description: "Registrasi berhasil, silahkan login",
+                okClick: () {
+                  Navigator.pop(context);
+                },
+              ));
+    }, onError: (error) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => WarningDialog(
+                description: "Registrasi gagal, silahkan coba lagi",
+              ));
+    });
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
