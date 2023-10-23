@@ -1,5 +1,5 @@
 class ApiUrl {
-  static const String baseUrl = 'http://10.100.3.112:8080/toko_api/public';
+  static const String baseUrl = 'http://192.168.1.7:8080/toko_api/public';
   static const String registrasi = baseUrl + '/registrasi';
   static const String login = baseUrl + '/login';
   static const String listProduk = baseUrl + '/produk';
